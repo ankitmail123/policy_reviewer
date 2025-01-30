@@ -38,16 +38,17 @@ def analyze_policy_compliance(document_text, standard_name, controls_description
     
     Please analyze if the policy complies with the given controls. For each control:
     1. State if it complies (Yes/No)
-    2. If it complies, quote the exact text from the document that demonstrates compliance
-    3. If it doesn't comply, explain the gap and provide specific text that should be added to make it compliant
+        - ✅ Fully Covered: quote the exact text from the document that demonstrates compliance
+      - ⚠️ Partially Covered: Areas that need improvement.
+      - ❌ Missing: explain the gap and provide specific text that should be added to make it compliant. Also provide a reference where the suggested text need to be added.
     
-    Format your response in a clear, structured manner.
+    Format your response in a clear, concise and structured manner.
     """
     
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "You are a policy compliance expert."},
+            {"role": "system", "content": "You are a cybersecurity compliance expert."},
             {"role": "user", "content": prompt}
         ],
         temperature=0.2
@@ -57,7 +58,7 @@ def analyze_policy_compliance(document_text, standard_name, controls_description
 
 def main():
     st.title("Policy Compliance Review Tool")
-    st.write("Upload a policy document and specify the security standard and controls to check for compliance.")
+    st.write("Upload a policy document and specify the security standard and controls description to check for compliance.")
     
     uploaded_file = st.file_uploader("Upload Policy Document", type=['pdf', 'docx'])
     standard_name = st.text_input("Enter Security Standard Name (e.g., ISO 27001, NIST 800-53)")
